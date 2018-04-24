@@ -1,0 +1,12 @@
+{
+	"/srv/services": [
+		"gitea",
+		"http",
+		"icinga",
+		"rz_measurements",
+		"traefik"
+	],
+	"/home/clemens/hg/biodiv2go/games/web": [
+		"."
+	]
+}
