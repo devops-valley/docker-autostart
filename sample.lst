@@ -1,6 +1,6 @@
 /srv/services/gitea
 /srv/services/http
-/srv/services/icinga
-/srv/services/rz_measurements
+/srv/services/icinga/
+/srv/services/rz_measurements/docker-compose.yml
 /srv/services/traefik
 /home/clemens/hg/biodiv2go/games/web
