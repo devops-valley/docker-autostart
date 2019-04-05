@@ -24,7 +24,7 @@ def find_services(dirs):
 	entries = [entry for base in dirs for entry in os.scandir(base) if entry.is_dir()]
 	return filter(has_compose, map(complete_compose, entries))
 
-def should_autostart(service):	
+def should_autostart(service):
 	#r = subprocess.run(CONFIG_CMD.format(path=service).split(), capture_output=True, encoding="utf8")
 	#return AUTOSTART_KEY in r.stdout
 	with open(service) as src:
@@ -40,7 +40,11 @@ if __name__ == "__main__":
 	parser.add_argument("service_dir", nargs="+")
 	parser.add_argument("--action", "-a", default="up -d")
 	parser.add_argument("--list", "-l", action="store_true", help="list autostart services only, no action")
+	parser.add_argument("--key", "-k", help="alternative label")
 	args = parser.parse_args()
+	
+	if args.key:
+		AUTOSTART_KEY = args.key
 	services = find_services(args.service_dir)
 	autostarts = find_autostart_services(services)
 	if args.list:
