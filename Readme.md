@@ -6,6 +6,8 @@ usage: `python3 discover.py [-a <action>] [-l] service_dir [service_dir …]`
 
 add label "de.wie-ei.autostart=true" to any service in a docker-compose-file
 
+!! This label is discovered as string, not by parsing Yaml. Commenting will not work!
+
 Examples:
 
 * start services (up -d) `python3 discover.py /srv/services/ /opt/docker/testing/`
