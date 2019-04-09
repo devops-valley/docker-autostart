@@ -4,12 +4,17 @@ import os
 import subprocess
 import logging
 
+from collections import namedtuple
+
 log = logging.getLogger(__name__)
 
 COMPOSE_FILE = "docker-compose.yml"
 CONFIG_CMD = "docker-compose -f {path} config "
-AUTOSTART_KEY = 'de.wie-ei.autostart: "true"'
-AUTOSTART_KEY = 'de.wie-ei.autostart=true'
+AUTOSTART_KEY = "{prefix}.autostart=true"
+PRIORITY_KEY = "{prefix}.autostart.priority="
+PREFIX = "de.wie-ei"
+
+Service = namedtuple("Service", ("path", "prio"))
 
 def complete_compose(entry):
 	path = entry.path
@@ -25,13 +30,27 @@ def find_services(dirs):
 	return filter(has_compose, map(complete_compose, entries))
 
 def should_autostart(service):
-	#r = subprocess.run(CONFIG_CMD.format(path=service).split(), capture_output=True, encoding="utf8")
-	#return AUTOSTART_KEY in r.stdout
 	with open(service) as src:
-		return AUTOSTART_KEY in src.read()
+		service_definitions = src.read()
+		key = AUTOSTART_KEY.format(prefix=PREFIX)
+		if not key in service_definitions:
+			return False
+		prio_key = PRIORITY_KEY.format(prefix=PREFIX)
+		pos = service_definitions.find(prio_key)
+		if pos >= 0:
+			start = pos + len(prio_key)
+			end = pos + service_definitions[pos:].find('"\n')
+			prio = service_definitions[start:end]
+			return int(prio)
+		return True
 
 def find_autostart_services(services):
-	return list(filter(should_autostart, services))
+	start_services = []
+	for service in services:
+		prio = should_autostart(service)
+		if prio:
+			start_services.append(Service(path=service, prio=prio))
+	return [x.path for x in sorted(start_services, key=lambda x:x.prio, reverse=True)]
 			
 
 if __name__ == "__main__":
@@ -40,11 +59,11 @@ if __name__ == "__main__":
 	parser.add_argument("service_dir", nargs="+")
 	parser.add_argument("--action", "-a", default="up -d")
 	parser.add_argument("--list", "-l", action="store_true", help="list autostart services only, no action")
-	parser.add_argument("--key", "-k", help="alternative label")
+	parser.add_argument("--key", "-k", help="alternative label prefix")
 	args = parser.parse_args()
 	
 	if args.key:
-		AUTOSTART_KEY = args.key
+		PREFIX = args.key
 	services = find_services(args.service_dir)
 	autostarts = find_autostart_services(services)
 	if args.list:
