@@ -17,7 +17,7 @@ Examples:
 
 ### pre/post exec
 
-e.g. `python3 start.py test.lst -a ps --pre 'echo {path} {step}' --post './sample/notify_telegram.sh <telegram_bot_key> <telegram_room> {path} {cmd} {returncode} \n {stdout}'`
+e.g. `python3 discover.py ./sample/ -a ps --pre 'echo {path} {step}' --post './sample/notify_telegram.sh <telegram_bot_key> <telegram_room> {path} {cmd} {returncode} \n {stdout}'`
 
 ## manual config
 
@@ -32,3 +32,7 @@ e.g. `python3 start.py test.lst -a ps --pre 'echo {path} {step}' --post './sampl
 ### other actions
 * default action: up -d
 * add argument -a "<compose action>"
+
+### pre/post exec
+
+e.g. `python3 start.py test.lst -a ps --pre 'echo {path} {step}' --post './sample/notify_telegram.sh <telegram_bot_key> <telegram_room> {path} {cmd} {returncode} \n {stdout}'`

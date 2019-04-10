@@ -70,4 +70,4 @@ if __name__ == "__main__":
 	else:
 		import start
 		for service in autostarts:
-			start.change_service(service, args.action)
+			start.change_service(service, args.action, pre_cmd=args.pre, post_cmd=args.post)
