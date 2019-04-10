@@ -67,7 +67,8 @@ if __name__ == "__main__":
 	services = find_services(args.service_dir)
 	autostarts = find_autostart_services(services)
 	if args.list:
-		print("\n".join(autostarts))
+		if autostarts:
+			print("\n".join(autostarts))
 	else:
 		import start
 		for service in autostarts:
