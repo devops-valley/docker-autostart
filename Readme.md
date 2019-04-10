@@ -15,6 +15,10 @@ Examples:
 * check status `python3 discover.py -a ps /opt/docker/testing/`
 * stop services `python3 discover.py -a "down -v /srv/testing/`
 
+### pre/post exec
+
+e.g. `python3 start.py test.lst -a ps --pre 'echo {path} {step}' --post './sample/notify_telegram.sh <telegram_bot_key> <telegram_room> {path} {cmd} {returncode} \n {stdout}'`
+
 ## manual config
 
 ### json config

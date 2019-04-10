@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+ http:
+  image: httpd:alpine
+  ports:
+   - "8080:80"
+  labels:
+   - "de.wie-ei.autostart=true"
+   - "de.wie-ei.autostart.priority=100"

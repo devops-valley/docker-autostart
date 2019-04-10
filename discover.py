@@ -1,10 +1,9 @@
-import argparse
-import json
 import os
-import subprocess
 import logging
 
 from collections import namedtuple
+
+from start import base_args, change_service
 
 log = logging.getLogger(__name__)
 
@@ -55,11 +54,10 @@ def find_autostart_services(services):
 
 if __name__ == "__main__":
 	logging.basicConfig(format="%(message)s (status %(returncode)s)", level=logging.INFO)
-	parser = argparse.ArgumentParser(description="Docker-compose Autostart discovery")
-	parser.add_argument("service_dir", nargs="+")
-	parser.add_argument("--action", "-a", default="up -d")
+	parser = base_args("Docker-compose Autostart discovery")
+	parser.add_argument("service_dir", nargs="+", help="One or more directories containing docker-compose services, only direct subdirectories are scanned")
 	parser.add_argument("--list", "-l", action="store_true", help="list autostart services only, no action")
-	parser.add_argument("--key", "-k", help="alternative label prefix")
+	parser.add_argument("--key", "-k", help=f"alternative label prefix, default: '{PREFIX}'")
 	args = parser.parse_args()
 	
 	if args.key:
