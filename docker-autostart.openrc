@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+
+command="python3"
+command_args="/opt/docker/docker-autostart/discover.py /opt/docker/ /opt/docker/services/"
+
+depend(){
+	need docker
+	after sshd
+}
+
+start(){
+	#python3 /opt/docker/docker-autostart/discover.py /opt/docker/ /opt/docker/services/
+	$command $command_args
+}
+
+stop(){
+	#python3 -a down /opt/docker/docker-autostart/discover.py /opt/docker/ /opt/docker/services/
+	$command $command_args -a down
+}
