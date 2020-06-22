@@ -13,7 +13,7 @@ Examples:
 * start services (up -d) `python3 discover.py /srv/services/ /opt/docker/testing/`
 * which services are configured for autostart? `python3 discover.py -l /srv/services/ /opt/docker/testing/`
 * check status `python3 discover.py -a ps /opt/docker/testing/`
-* stop services `python3 discover.py -a "down -v /srv/testing/`
+* stop services `python3 discover.py -a "down -v" /srv/testing/`
 
 ### pre/post exec
 

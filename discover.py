@@ -62,6 +62,8 @@ if __name__ == "__main__":
 	
 	if args.key:
 		PREFIX = args.key
+	else:
+		PREFIX = os.getenv('DISCOVER_PREFIX', PREFIX)
 	services = find_services(args.service_dir)
 	autostarts = find_autostart_services(services)
 	if args.list:
